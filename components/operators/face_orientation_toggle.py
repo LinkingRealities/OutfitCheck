@@ -1,7 +1,6 @@
 """ Face orientation toggle """
 import bpy
 
-
 def toggle_face_orientation(context):
     for area in bpy.context.screen.areas:
         if area.type != "VIEW_3D":
@@ -11,7 +10,6 @@ def toggle_face_orientation(context):
                 continue
             space.overlay.show_face_orientation = not space.overlay.show_face_orientation
             break
-
 
 class FaceOrientationToggle_Operator(bpy.types.Operator):
     """Tooltip"""

@@ -1,50 +1,46 @@
 """ Export main poses """
 import bpy
 import os
-import sys
 
-ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
-
-if ROOT_DIR not in sys.path:
-    sys.path.append(ROOT_DIR)
-POSES_PATH = "Addon_Poses.blend"
+from components.constants import ROOT_DIR
+from components.constants import POSES_PATH
 
 def load_poses():
 
     try:
         bpy.data.actions["A Pose"]
     except:
-        bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, POSES_PATH, "Action"),
+        bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, "assets", POSES_PATH, "Action"),
                           files=[{"name": "A Pose"}])
     
     try:
         bpy.data.actions["Dancing Left"]
     except:
-        bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, POSES_PATH, "Action"),
+        bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, "assets", POSES_PATH, "Action"),
                           files=[{"name": "Dancing Left"}])
 
     try:
         bpy.data.actions["Dancing Right"]
     except:
-        bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, POSES_PATH, "Action"),
+        bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, "assets", POSES_PATH, "Action"),
                           files=[{"name": "Dancing Right"}])
 
     try:
         bpy.data.actions["Walking Left"] 
     except:
-        bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, POSES_PATH, "Action"),
+        bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, "assets", POSES_PATH, "Action"),
                           files=[{"name": "Walking Left"}])
 
     try:
         bpy.data.actions["Walking Right"] 
     except:    
-        bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, POSES_PATH, "Action"),
+        bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, "assets", POSES_PATH, "Action"),
                           files=[{"name": "Walking Right"}])
 
     try:
         bpy.data.actions["Talking"]
     except:    
-        bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, POSES_PATH, "Action"),
+        bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, "assets", POSES_PATH, "Action"),
                           files=[{"name": "Talking"}])
 
 
@@ -81,6 +77,9 @@ class DefaultPose_Operator(bpy.types.Operator):
 
             # Set the active action
             ob.animation_data.action = action
+            bpy.ops.object.posemode_toggle()
+            ob.animation_data_clear()
+            for action in bpy.data.actions: bpy.data.actions.remove(action)
           
         except:
             self.report({"ERROR"}, "ERROR: Pose library was not imported")
@@ -105,6 +104,9 @@ class DancingLeftPose_Operator(bpy.types.Operator):
 
             # Set the active action
             ob.animation_data.action = action
+            bpy.ops.object.posemode_toggle()
+            ob.animation_data_clear()
+            for action in bpy.data.actions: bpy.data.actions.remove(action)
           
         except:
             self.report({"ERROR"}, "ERROR: Pose library was not imported")
@@ -129,6 +131,9 @@ class DancingRightPose_Operator(bpy.types.Operator):
 
             # Set the active action
             ob.animation_data.action = action
+            bpy.ops.object.posemode_toggle()
+            ob.animation_data_clear()
+            for action in bpy.data.actions: bpy.data.actions.remove(action)
           
         except:
             self.report({"ERROR"}, "ERROR: Pose library was not imported")
@@ -153,6 +158,9 @@ class WalkingLeftPose_Operator(bpy.types.Operator):
 
             # Set the active action
             ob.animation_data.action = action
+            bpy.ops.object.posemode_toggle()
+            ob.animation_data_clear()
+            for action in bpy.data.actions: bpy.data.actions.remove(action)
           
         except:
             self.report({"ERROR"}, "ERROR: Pose library was not imported")
@@ -177,6 +185,9 @@ class WalkingRightPose_Operator(bpy.types.Operator):
 
             # Set the active action
             ob.animation_data.action = action
+            bpy.ops.object.posemode_toggle()
+            ob.animation_data_clear()
+            for action in bpy.data.actions: bpy.data.actions.remove(action)
           
         except:
             self.report({"ERROR"}, "ERROR: Pose library was not imported")

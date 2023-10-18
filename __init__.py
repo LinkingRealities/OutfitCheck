@@ -1,9 +1,9 @@
 bl_info = {
-    "name": "Production Check",
+    "name": "Union Avatars Production Tools",
     "author": "Jónathan Garcia, Gaukhar Kuttubeck",
-    "version": (1, 0),
-    "blender": (3, 5, 0),
-    "location": "Misc > Production Check",
+    "version": (1, 1),
+    "blender": (3, 3, 0),
+    "location": "View3D -> Right Sidebar -> Production Tools",
     "description": "Checks if a model is ready for production",
     "warning": "",
     "doc_url": "",
@@ -11,12 +11,9 @@ bl_info = {
 }
 
 # TODO:
-# -Add Check Rig Button
-#    -Check if objects are parented to armature
-# -Add changed textures for Rename Textures
-# -Check texture name before exporting
-# -Check for png files
-# -Check if body has only one material
+# -Check if objects are parented to armature
+# -Check if transformations are applied
+# -Add button to pack textures
 # -Find a way to check collisions (separate linked/material & bool?)
 
 import os
@@ -27,25 +24,18 @@ ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
 if ROOT_DIR not in sys.path:
     sys.path.append(ROOT_DIR)
 
-
-from components.operators.empty_head import EmptyMaleHead_Operator
-from components.operators.empty_head import EmptyFemaleHead_Operator
-from components.operators.export_glb import GlbExport_Operator
-from components.operators.export_glb import GlbExportDev_Operator
+from components.operators.export_glb_json import GlbJsonExport_Operator
 from components.operators.export_fbx import FbxExport_Operator
 from components.operators.texture_renaming import TextureRename_Operator
 from components.operators.face_orientation_toggle import FaceOrientationToggle_Operator
-from components.operators.mesh_renaming import BodyMeshRename_Operator
 from components.operators.mesh_renaming import TopMeshRename_Operator
 from components.operators.mesh_renaming import BottomMeshRename_Operator
 from components.operators.mesh_renaming import ShoesMeshRename_Operator
 from components.operators.mesh_renaming import AccessoryMeshRename_Operator
 from components.operators.material_renaming import TopMaterialRename_Operator
-from components.operators.material_renaming import BodyMaterialRename_Operator
 from components.operators.material_renaming import BottomMaterialRename_Operator
 from components.operators.material_renaming import ShoesMaterialRename_Operator
 from components.operators.material_renaming import AccesoryMaterialRename_Operator
-from components.operators.object_renaming import BodyObjectRename_Operator
 from components.operators.object_renaming import BottomObjectRename_Operator
 from components.operators.object_renaming import TopObjectRename_Operator
 from components.operators.object_renaming import ShoesObjectRename_Operator
@@ -56,24 +46,27 @@ from components.operators.rigging_test import DancingRightPose_Operator
 from components.operators.rigging_test import WalkingLeftPose_Operator
 from components.operators.rigging_test import WalkingRightPose_Operator
 from components.operators.rigging_test import DefaultPose_Operator
-from components.operators.textures_validation import RemoveMetallicTexture_Operator
-from components.operators.textures_validation import RemoveEmissionTexture_Operator
-from components.operators.textures_validation import RemoveRoughnessTexture_Operator
-from components.operators.textures_validation import ValidateTextures_Operator
+from components.operators.textures_validation import RemoveForbiddenTextures_Operator
+from components.operators.metadata_generation import ImportArmature_Operator
+from components.operators.metadata_generation import ActivateHands_Operator
+from components.operators.metadata_generation import ActivateArmsBottom_Operator
+from components.operators.metadata_generation import ActivateArmsTop_Operator
+from components.operators.metadata_generation import ActivateChest_Operator
+from components.operators.metadata_generation import ActivateBelly_Operator
+from components.operators.metadata_generation import ActivateHips_Operator
+from components.operators.metadata_generation import ActivateLegsTop_Operator
+from components.operators.metadata_generation import ActivateLegsBottom_Operator
+from components.operators.metadata_generation import ActivateFeet_Operator
+from components.operators.metadata_generation import ChangeGender_Operator
+from components.operators.armature_parent import ArmatureParent_Operator
+from components.operators.transformations_apply import TransformationsApply_Operator
 from components.properties import Properties
-from components.panels.regular_panel import ProductionCheck_PT_Panel_Regular
-from components.panels.advanced_panel import ProductionCheck_PT_Panel_Advanced
+from components.panels.main_panel import ProductionCheck_PT_Panel_Main
 
 classes = [
-    EmptyFemaleHead_Operator,
-    EmptyMaleHead_Operator,
-    ProductionCheck_PT_Panel_Regular,
-    ProductionCheck_PT_Panel_Advanced,
+    ProductionCheck_PT_Panel_Main,
     TextureRename_Operator,
     FaceOrientationToggle_Operator,
-    BodyMeshRename_Operator,
-    BodyObjectRename_Operator,
-    BodyMaterialRename_Operator,
     TopObjectRename_Operator,
     TopMeshRename_Operator,
     TopMaterialRename_Operator,
@@ -86,8 +79,7 @@ classes = [
     AccessoryMeshRename_Operator,
     AccessoryObjectRename_Operator,
     AccesoryMaterialRename_Operator,
-    GlbExport_Operator,
-    GlbExportDev_Operator,
+    GlbJsonExport_Operator,
     FbxExport_Operator,
     RiggingTest_Operator,
     DancingLeftPose_Operator,
@@ -95,17 +87,27 @@ classes = [
     WalkingLeftPose_Operator,
     WalkingRightPose_Operator,
     DefaultPose_Operator,
-    RemoveMetallicTexture_Operator,
-    RemoveEmissionTexture_Operator,
-    RemoveRoughnessTexture_Operator,
-    ValidateTextures_Operator
+    RemoveForbiddenTextures_Operator,
+    ImportArmature_Operator,
+    ActivateHands_Operator,
+    ActivateArmsBottom_Operator,
+    ActivateArmsTop_Operator,
+    ActivateChest_Operator,
+    ActivateBelly_Operator,
+    ActivateHips_Operator,
+    ActivateLegsTop_Operator,
+    ActivateLegsBottom_Operator,
+    ActivateFeet_Operator,
+    ChangeGender_Operator,
+    ArmatureParent_Operator,
+    TransformationsApply_Operator
 ]
 
 
 def register():
     try:
         bpy.utils.register_class(Properties)
-        bpy.types.Scene.my_tool = bpy.props.PointerProperty(type=Properties)
+        bpy.types.Scene.PanelProperties = bpy.props.PointerProperty(type=Properties)
 
         for bpy_class in classes:
             bpy.utils.register_class(bpy_class)
@@ -121,7 +123,7 @@ def unregister():
     for bpy_class in classes:
         bpy.utils.unregister_class(bpy_class)
 
-    del bpy.types.Scene.my_tool
+    del bpy.types.Scene.PanelProperties
 
 
 if __name__ == "__main__":

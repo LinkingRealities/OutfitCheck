@@ -1,13 +1,7 @@
 """ Material renaming """
 import bpy
 
-var_head = "UnionAvatars_Head"
-var_body = "UnionAvatars_Body"
-var_top = "UnionAvatars_Top"
-var_bottom = "UnionAvatars_Bottom"
-var_shoes = "UnionAvatars_Shoes"
-var_acs = "UnionAvatars_Acs"
-
+from components.constants import var_garmenttypes
 
 def rename_material(context, var_target):
     bpy.ops.outliner.orphans_purge(do_local_ids=True, do_linked_ids=True)
@@ -23,44 +17,36 @@ def rename_material(context, var_target):
 
     bpy.data.objects[var_target].active_material_index = 0
 
-
-class BodyMaterialRename_Operator(bpy.types.Operator):
-    """Tooltip"""
-    bl_idname = "object.body_material_rename"
-    bl_label = "Rename"
-
-    def execute(self, context):
-        rename_material(context, var_body)
-        return {"FINISHED"}
-
-
 class TopMaterialRename_Operator(bpy.types.Operator):
     """Tooltip"""
     bl_idname = "object.top_material_rename"
-    bl_label = "Rename"
+    bl_label = "Rename material"
 
     def execute(self, context):
-        rename_material(context, var_top)
+        rename_material(context, var_garmenttypes['var_top'])
+        #rename_texture(var_garmenttypes['var_top']) (commented, does not work)
         return {"FINISHED"}
 
 
 class BottomMaterialRename_Operator(bpy.types.Operator):
     """Tooltip"""
     bl_idname = "object.bottom_material_rename"
-    bl_label = "Rename"
+    bl_label = "Rename material"
 
     def execute(self, context):
-        rename_material(context, var_bottom)
+        rename_material(context, var_garmenttypes['var_bottom'])
+        #rename_texture(var_garmenttypes['var_bottom']) (commented, does not work)
         return {"FINISHED"}
 
 
 class ShoesMaterialRename_Operator(bpy.types.Operator):
     """Tooltip"""
     bl_idname = "object.shoes_material_rename"
-    bl_label = "Rename"
+    bl_label = "Rename material"
 
     def execute(self, context):
-        rename_material(context, var_shoes)
+        rename_material(context, var_garmenttypes['var_shoes'])
+        #rename_texture(var_garmenttypes['var_shoes']) (commented, does not work)
         return {"FINISHED"}
 
 
@@ -70,20 +56,6 @@ class AccesoryMaterialRename_Operator(bpy.types.Operator):
     bl_label = "Rename"
 
     def execute(self, context):
-        rename_material(context, var_acs)
+        rename_material(context, var_garmenttypes['var_acs'])
         return {"FINISHED"}
 
-
-def check_material_name(var_target, col):
-    active = bpy.data.objects[var_target]
-    slots_materials = active.material_slots
-    for count_m, _ in enumerate(slots_materials):
-        if count_m > 0:
-            if not bpy.data.objects[var_target].material_slots[count_m].name == var_target + str(count_m):
-                raise ValueError("Error appeared in materials")
-        else:
-            if not bpy.data.objects[var_target].material_slots[count_m].name == var_target:
-                raise ValueError("Error appeared in materials")
-
-    col.alert = False
-    col.label(icon="KEYTYPE_JITTER_VEC")

@@ -1,14 +1,6 @@
 """ Texture renaming """
 import bpy
 
-var_head = "UnionAvatars_Head"
-var_body = "UnionAvatars_Body"
-var_top = "UnionAvatars_Top"
-var_bottom = "UnionAvatars_Bottom"
-var_shoes = "UnionAvatars_Shoes"
-var_acs = "UnionAvatars_Acs"
-
-
 def rename_texture(var_target):
     try:
         print(f"Renaming materials for {bpy.data.objects[var_target].name}:")
@@ -31,7 +23,7 @@ def rename_texture(var_target):
                 linkColor_node = linkColor.from_node
 
                 # Rename the image to the material name plus the extension
-                linkColor_node.image.name = material.name + "_d.jpg"
+                linkColor_node.image.name = material.name + "_c.jpg"
                 print(f"   {linkColor_node.image.name} renamed")
 
             except:
@@ -71,8 +63,8 @@ class TextureRename_Operator(bpy.types.Operator):
 
     def execute(self, context):
         # texture_rename(context,var_body)
-        rename_texture(var_top)
-        rename_texture(var_bottom)
+        #rename_texture(var_top)
+        #rename_texture(var_bottom)
         # texture_rename(context,var_shoes)
         self.report({"INFO"}, "All textures Renamed Correctly")
         return {"FINISHED"}
