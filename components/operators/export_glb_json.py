@@ -4,7 +4,22 @@ import os
 
 from components.constants import var_bodyparts
 
+from components.constants import var_garmenttypes
+
 def glb_export(context):
+
+    #delete bodyparts
+    for bodypart in var_bodyparts.values():
+        try:
+            bpy.data.objects[bodypart]
+
+            bpy.ops.object.select_all(action='DESELECT')
+            bpy.data.objects[bodypart].select_set(True)
+            bpy.ops.object.delete()
+        except:
+            pass
+
+
     # Purge unused files and pack external resources
     bpy.ops.outliner.orphans_purge(do_local_ids=True, do_linked_ids=True, do_recursive=True)
 
@@ -21,6 +36,13 @@ def bodyparts_present(context, bodypart):
         return "true"
     else:
         return "false"
+    
+def check_existence(obj_name):
+    try:
+        bpy.data.objects[obj_name].select_get()
+        return True
+    except:
+        return False
 
 def json_export(context):
     path = bpy.data.filepath
@@ -46,7 +68,22 @@ def json_export(context):
         result += "        \"gender\": \"female\",\n" 
     else:
         result += "        \"gender\": \"male\",\n"
-    result += "        \"position\": \"outfit\",\n" 
+
+    if check_existence(var_garmenttypes['var_top']) and not check_existence(var_garmenttypes['var_bottom']) and not check_existence(var_garmenttypes['var_shoes']) and not check_existence(var_garmenttypes['var_acs']):
+        result += "        \"position\": \"top\",\n" 
+
+    elif not check_existence(var_garmenttypes['var_top']) and check_existence(var_garmenttypes['var_bottom']) and not check_existence(var_garmenttypes['var_shoes']) and not check_existence(var_garmenttypes['var_acs']):
+        result += "        \"position\": \"bottom\",\n" 
+
+    elif not check_existence(var_garmenttypes['var_top']) and not check_existence(var_garmenttypes['var_bottom']) and check_existence(var_garmenttypes['var_shoes']) and not check_existence(var_garmenttypes['var_acs']):
+        result += "        \"position\": \"shoes\",\n" 
+
+    elif not check_existence(var_garmenttypes['var_top']) and not check_existence(var_garmenttypes['var_bottom']) and not check_existence(var_garmenttypes['var_shoes']) and check_existence(var_garmenttypes['var_acs']):
+        result += "        \"position\": \"accessories\",\n" 
+    else:
+        result += "        \"position\": \"outfit\",\n" 
+
+    
     result += "        \"category\": null,\n"
 
     base=os.path.basename(path)
@@ -70,8 +107,8 @@ class GlbJsonExport_Operator(bpy.types.Operator):
     def execute(self, context):
         if bpy.data.is_saved:
             
-            glb_export(context)
             json_export(context)
+            glb_export(context)
             self.report({"INFO"}, "Glb File Exported Correctly")
             self.report({"INFO"}, "All textures were compressed to JPEG format")
                 

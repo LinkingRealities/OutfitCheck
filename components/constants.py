@@ -11,7 +11,7 @@ var_garmenttypes = {
 }
 
 var_bodyparts = {
-    'var_hands': "UnionAvatars_Hands",
+    'var_neck': "UnionAvatars_Neck",
     'var_hands': "UnionAvatars_Hands",
     'var_armsBottom': "UnionAvatars_Arms_bottom",
     'var_armsTop': "UnionAvatars_Arms_top",
@@ -20,8 +20,8 @@ var_bodyparts = {
     'var_hips': "UnionAvatars_Hips",
     'var_legsTop': "UnionAvatars_Legs_top",
     'var_legsBottom': "UnionAvatars_Legs_bottom",
-    'var_feet': "UnionAvatars_Feet",
-    'var_neck': "UnionAvatars_Neck"
+    'var_feet': "UnionAvatars_Feet"
+    
 }
 
 var_forbiddentextures = ["Metallic","Roughness"]

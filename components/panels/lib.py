@@ -498,7 +498,7 @@ def transformations_applied(layout):
                 var_transformations_applied = False
     
     if not var_transformations_applied:
-        transformations_row = transformations_row.row()
+        transformations_row = transformations_box.row()
         transformations_row.alert = True
         transformations_row.scale_y = 0.9
         transformations_row.operator("object.transformations_apply")

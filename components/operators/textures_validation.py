@@ -60,7 +60,7 @@ class RemoveForbiddenTextures_Operator(bpy.types.Operator):
 
     def execute(self, context):
 
-        for texture_name in var_forbiddentextures.values():
+        for texture_name in var_forbiddentextures:
             remove_unecessary_textures(texture_name)
 
 
