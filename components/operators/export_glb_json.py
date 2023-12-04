@@ -57,6 +57,8 @@ def json_export(context):
             result += f"                \"{bodypart}\": {bodyparts_present(context, bodypart)}\n"
         elif bodypart == var_bodyparts['var_neck']:
             result += f"                \"{bodypart}\": true,\n"
+        elif bodypart == var_bodyparts['var_head']:
+            pass
         else:
             result += f"                \"{bodypart}\": {bodyparts_present(context, bodypart)},\n"
     

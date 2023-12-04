@@ -1,20 +1,14 @@
 bl_info = {
-    "name": "Union Avatars Production Tools",
+    "name": "Union Avatars Blender Validator",
     "author": "Jónathan Garcia, Gaukhar Kuttubeck",
-    "version": (1, 1),
+    "version": (1, 1, 1),
     "blender": (3, 3, 0),
-    "location": "View3D -> Right Sidebar -> Production Tools",
-    "description": "Checks if a model is ready for production",
+    "location": "View3D -> Right Sidebar -> UA Validator",
+    "description": "Checks if an asset is ready for production",
     "warning": "",
     "doc_url": "",
     "category": "Interface",
 }
-
-# TODO:
-# -Check if objects are parented to armature
-# -Check if transformations are applied
-# -Add button to pack textures
-# -Find a way to check collisions (separate linked/material & bool?)
 
 import os
 import sys
@@ -46,6 +40,8 @@ from components.operators.rigging_test import DancingRightPose_Operator
 from components.operators.rigging_test import WalkingLeftPose_Operator
 from components.operators.rigging_test import WalkingRightPose_Operator
 from components.operators.rigging_test import DefaultPose_Operator
+from components.operators.rigging_test import RestPose_Operator
+from components.operators.rigging_test import TPose_Operator
 from components.operators.textures_validation import RemoveForbiddenTextures_Operator
 from components.operators.metadata_generation import ImportArmature_Operator
 from components.operators.metadata_generation import ActivateHands_Operator
@@ -57,6 +53,7 @@ from components.operators.metadata_generation import ActivateHips_Operator
 from components.operators.metadata_generation import ActivateLegsTop_Operator
 from components.operators.metadata_generation import ActivateLegsBottom_Operator
 from components.operators.metadata_generation import ActivateFeet_Operator
+from components.operators.metadata_generation import ActivateHead_Operator
 from components.operators.metadata_generation import ChangeGender_Operator
 from components.operators.armature_parent import ArmatureParent_Operator
 from components.operators.transformations_apply import TransformationsApply_Operator
@@ -86,6 +83,8 @@ classes = [
     DancingRightPose_Operator,
     WalkingLeftPose_Operator,
     WalkingRightPose_Operator,
+    RestPose_Operator,
+    TPose_Operator,
     DefaultPose_Operator,
     RemoveForbiddenTextures_Operator,
     ImportArmature_Operator,
@@ -99,6 +98,7 @@ classes = [
     ActivateLegsBottom_Operator,
     ActivateFeet_Operator,
     ChangeGender_Operator,
+    ActivateHead_Operator,
     ArmatureParent_Operator,
     TransformationsApply_Operator
 ]

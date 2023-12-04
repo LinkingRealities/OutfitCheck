@@ -38,10 +38,16 @@ def load_poses():
                           files=[{"name": "Walking Right"}])
 
     try:
-        bpy.data.actions["Talking"]
+        bpy.data.actions["T Pose"]
     except:    
         bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, "assets", POSES_PATH, "Action"),
-                          files=[{"name": "Talking"}])
+                          files=[{"name": "T Pose"}])
+        
+    try:
+        bpy.data.actions["Rest Pose"]
+    except:    
+        bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, "assets", POSES_PATH, "Action"),
+                          files=[{"name": "Rest Pose"}])
 
 
 class RiggingTest_Operator(bpy.types.Operator):
@@ -61,7 +67,7 @@ class RiggingTest_Operator(bpy.types.Operator):
 class DefaultPose_Operator(bpy.types.Operator):
     """Tooltip"""
     bl_idname = "object.default_pose"
-    bl_label = "Default Pose"
+    bl_label = "A Pose (Default)"
     bl_description = "Default Pose"
     def execute(self, context):
         
@@ -74,15 +80,18 @@ class DefaultPose_Operator(bpy.types.Operator):
             # Create the animation data if it doesn't exist
             if not ob.animation_data:
                 ob.animation_data_create()
+        except:
+            self.report({"ERROR"}, "ERROR: Pose library was not imported")
 
+        try:
             # Set the active action
             ob.animation_data.action = action
             bpy.ops.object.posemode_toggle()
             ob.animation_data_clear()
             for action in bpy.data.actions: bpy.data.actions.remove(action)
-          
         except:
-            self.report({"ERROR"}, "ERROR: Pose library was not imported")
+            self.report({"ERROR"}, "ERROR: Delete action assigned to armature before changing pose")
+
         return {"FINISHED"}
 
 class DancingLeftPose_Operator(bpy.types.Operator):
@@ -101,15 +110,17 @@ class DancingLeftPose_Operator(bpy.types.Operator):
             # Create the animation data if it doesn't exist
             if not ob.animation_data:
                 ob.animation_data_create()
+        except:
+            self.report({"ERROR"}, "ERROR: Pose library was not imported")
 
+        try:
             # Set the active action
             ob.animation_data.action = action
             bpy.ops.object.posemode_toggle()
             ob.animation_data_clear()
             for action in bpy.data.actions: bpy.data.actions.remove(action)
-          
         except:
-            self.report({"ERROR"}, "ERROR: Pose library was not imported")
+            self.report({"ERROR"}, "ERROR: Delete action assigned to armature before changing pose")
         return {"FINISHED"}
         
 class DancingRightPose_Operator(bpy.types.Operator):
@@ -128,15 +139,17 @@ class DancingRightPose_Operator(bpy.types.Operator):
             # Create the animation data if it doesn't exist
             if not ob.animation_data:
                 ob.animation_data_create()
+        except:
+            self.report({"ERROR"}, "ERROR: Pose library was not imported")
 
+        try:
             # Set the active action
             ob.animation_data.action = action
             bpy.ops.object.posemode_toggle()
             ob.animation_data_clear()
             for action in bpy.data.actions: bpy.data.actions.remove(action)
-          
         except:
-            self.report({"ERROR"}, "ERROR: Pose library was not imported")
+            self.report({"ERROR"}, "ERROR: Unlink animation assigned to armature before changing pose")
         return {"FINISHED"}
         
 class WalkingLeftPose_Operator(bpy.types.Operator):
@@ -155,15 +168,17 @@ class WalkingLeftPose_Operator(bpy.types.Operator):
             # Create the animation data if it doesn't exist
             if not ob.animation_data:
                 ob.animation_data_create()
+        except:
+            self.report({"ERROR"}, "ERROR: Pose library was not imported")
 
+        try:
             # Set the active action
             ob.animation_data.action = action
             bpy.ops.object.posemode_toggle()
             ob.animation_data_clear()
             for action in bpy.data.actions: bpy.data.actions.remove(action)
-          
         except:
-            self.report({"ERROR"}, "ERROR: Pose library was not imported")
+            self.report({"ERROR"}, "ERROR: Unlink animation assigned to armature before changing pose")
         return {"FINISHED"}
 
 class WalkingRightPose_Operator(bpy.types.Operator):
@@ -182,13 +197,73 @@ class WalkingRightPose_Operator(bpy.types.Operator):
             # Create the animation data if it doesn't exist
             if not ob.animation_data:
                 ob.animation_data_create()
+        except:
+            self.report({"ERROR"}, "ERROR: Pose library was not imported")
 
+        try:
             # Set the active action
             ob.animation_data.action = action
             bpy.ops.object.posemode_toggle()
             ob.animation_data_clear()
             for action in bpy.data.actions: bpy.data.actions.remove(action)
-          
+        except:
+            self.report({"ERROR"}, "ERROR: Unlink animation assigned to armature before changing pose")
+        return {"FINISHED"}
+    
+class TPose_Operator(bpy.types.Operator):
+    """Tooltip"""
+    bl_idname = "object.t_pose"
+    bl_label = "T Pose"
+    bl_description = "Standard T pose"
+    def execute(self, context):
+        
+        try:
+            load_poses()
+            ob = bpy.data.objects['Armature']
+            print("Armature loaded")
+            action = bpy.data.actions["T Pose"]
+            print("Pose loaded")
+            # Create the animation data if it doesn't exist
+            if not ob.animation_data:
+                ob.animation_data_create()
         except:
             self.report({"ERROR"}, "ERROR: Pose library was not imported")
+
+        try:
+            # Set the active action
+            ob.animation_data.action = action
+            bpy.ops.object.posemode_toggle()
+            ob.animation_data_clear()
+            for action in bpy.data.actions: bpy.data.actions.remove(action)
+        except:
+            self.report({"ERROR"}, "ERROR: Unlink animation assigned to armature before changing pose")
+        return {"FINISHED"}
+    
+class RestPose_Operator(bpy.types.Operator):
+    """Tooltip"""
+    bl_idname = "object.rest_pose"
+    bl_label = "Rest Pose"
+    bl_description = "Rest pose"
+    def execute(self, context):
+        
+        try:
+            load_poses()
+            ob = bpy.data.objects['Armature']
+
+            action = bpy.data.actions["Rest Pose"]
+            
+            # Create the animation data if it doesn't exist
+            if not ob.animation_data:
+                ob.animation_data_create()
+        except:
+            self.report({"ERROR"}, "ERROR: Pose library was not imported")
+
+        try:
+            # Set the active action
+            ob.animation_data.action = action
+            bpy.ops.object.posemode_toggle()
+            ob.animation_data_clear()
+            for action in bpy.data.actions: bpy.data.actions.remove(action)
+        except:
+            self.report({"ERROR"}, "ERROR: Unlink animation assigned to armature before changing pose")
         return {"FINISHED"}

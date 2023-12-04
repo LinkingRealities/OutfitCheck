@@ -4,6 +4,7 @@ import bpy
 from components.panels.lib import create_objects_validation_panel
 from components.panels.lib import image_size
 from components.panels.lib import textures_validation
+from components.panels.lib import source_validation
 from components.panels.lib import image_packing
 from components.panels.lib import unexpected_objects
 from components.panels.lib import metadata_selector
@@ -25,6 +26,9 @@ def main_panel(panel_props, layout):
     
     #Textures validation section
     textures_validation(layout=layout)
+
+    #Textures source validation section
+    source_validation(layout=layout)
 
     #Armature parent section
     armatureparent = parented_to_armature(layout=layout)
@@ -58,11 +62,11 @@ def main_panel(panel_props, layout):
 
 class ProductionCheck_PT_Panel_Main(bpy.types.Panel):
     """Creates a Panel in the Navigation Toolbar"""
-    bl_label = "Union Avatars Production Tools"
+    bl_label = "Union Avatars Validator"
     bl_idname = "OBJECT_PT_ProductionCheckPanel"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
-    bl_category = 'UA Production Tools'
+    bl_category = 'UA Validator'
 
     def draw(self, context):
         layout = self.layout

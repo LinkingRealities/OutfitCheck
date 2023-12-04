@@ -120,7 +120,6 @@ class ActivateHands_Operator(bpy.types.Operator):
     bl_description = "Activate hands for the avatar"
 
     def execute(self, context):
-        print (f"var_testBodyparts[var_hands] = {var_bodyparts['var_hands']}")
         context.scene.PanelProperties.bodypartsBool = False
         if activate_bodypart(context, var_bodyparts["var_hands"]) == {'ERROR'}:
             self.report({"WARNING"}, "Please import Armature before adding bodyparts")
@@ -218,6 +217,18 @@ class ActivateFeet_Operator(bpy.types.Operator):
 
     def execute(self, context): 
         context.scene.PanelProperties.bodypartsBool = False
-        activate_bodypart(context, var_bodyparts["var_feet"])
+        if activate_bodypart(context, var_bodyparts["var_feet"]) == {'ERROR'}:
+            self.report({"WARNING"}, "Please import Armature before adding bodyparts")
         return {"FINISHED"}
 
+class ActivateHead_Operator(bpy.types.Operator):
+    """Tooltip"""
+    bl_idname = "object.activate_head"
+    bl_label = "Head"
+    bl_description = "Activate head for the avatar"
+
+    def execute(self, context): 
+        context.scene.PanelProperties.bodypartsBool = False
+        if activate_bodypart(context, var_bodyparts["var_head"]) == {'ERROR'}:
+            self.report({"WARNING"}, "Please import Armature before adding bodyparts")
+        return {"FINISHED"}

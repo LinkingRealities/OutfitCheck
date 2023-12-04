@@ -274,6 +274,25 @@ def textures_validation(layout):
         textures_row.scale_y = .9
         textures_row.operator("object.remove_metallic_texture", text = "Remove")
 
+def source_validation(layout):
+    textures_validation = False
+
+    for image in bpy.data.images:
+        if bpy.data.images[image.name].source == 'TILED':
+            textures_validation = True
+                
+    if textures_validation:
+        textures_validation = layout.box()
+
+    if textures_validation:            
+        textures_row = textures_validation.row()
+        textures_row.alert = True
+        textures_row.scale_y = .9
+        textures_row.label(text = f"UDIM IMAGES DETECTED")
+        textures_row = textures_validation.row()
+        textures_row.alert = True
+        textures_row.label(text = "Some images are set in UDIM mode. Please change them to single mode.")
+
 def image_packing(layout):
     try:
         for img in bpy.data.images:
@@ -321,6 +340,10 @@ def metadata_selector(layout, panel_props):
     metadata_row = layout.box()
 
     metadata_row.label(text = "Visible Body Parts")
+
+    row0 = metadata_row.row()
+    row0.operator("object.activate_head", icon = 'CHECKMARK' if bpy.context.scene.objects.get(var_bodyparts["var_head"]) else 'NONE' )
+
     row1 = metadata_row.row()
     row1.operator("object.activate_chest", icon = 'CHECKMARK' if bpy.context.scene.objects.get(var_bodyparts['var_chest']) else 'NONE' )
     row1.operator("object.activate_armstop", icon = 'CHECKMARK' if bpy.context.scene.objects.get(var_bodyparts['var_armsTop']) else 'NONE' )
@@ -350,9 +373,11 @@ def rigging_test(layout):
 
     try:
         rigging_raw.label(text="Rigging Test")
-        row0 = rigging_raw.row()
+        row0 = rigging_raw.row(align = True)
         row0.scale_y = 1.5
+        row0.operator("object.t_pose")
         row0.operator("object.default_pose")
+        row0.operator("object.rest_pose")
         row1 = rigging_raw.row()
         row1.operator("object.dancingright_pose")
         row1.operator("object.dancingleft_pose")
