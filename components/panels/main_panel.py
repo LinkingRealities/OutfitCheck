@@ -62,11 +62,11 @@ def main_panel(panel_props, layout):
 
 class ProductionCheck_PT_Panel_Main(bpy.types.Panel):
     """Creates a Panel in the Navigation Toolbar"""
-    bl_label = "Union Avatars Validator"
+    bl_label = "Union Avatars Production Tools"
     bl_idname = "OBJECT_PT_ProductionCheckPanel"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
-    bl_category = 'UA Validator'
+    bl_category = 'UA Production Tools'
 
     def draw(self, context):
         layout = self.layout
