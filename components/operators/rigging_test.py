@@ -1,57 +1,77 @@
 """ Export main poses """
-import bpy
 import os
 
-from components.constants import ROOT_DIR
-from components.constants import POSES_PATH
+import bpy
+
+from components.constants import CRT_POSES_PATH, PHR_POSES_PATH, ROOT_DIR
+
 
 def load_poses():
+    if bpy.context.scene.PanelProperties.styleBool:
+        POSE_PATH = PHR_POSES_PATH
+    else:
+        POSE_PATH = CRT_POSES_PATH
 
     try:
         bpy.data.actions["A Pose"]
     except:
-        bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, "assets", POSES_PATH, "Action"),
-                          files=[{"name": "A Pose"}])
-    
+        bpy.ops.wm.append(
+            directory=os.path.join(ROOT_DIR, "assets", POSE_PATH, "Action"),
+            files=[{"name": "A Pose"}],
+        )
+
     try:
         bpy.data.actions["Dancing Left"]
     except:
-        bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, "assets", POSES_PATH, "Action"),
-                          files=[{"name": "Dancing Left"}])
+        bpy.ops.wm.append(
+            directory=os.path.join(ROOT_DIR, "assets", POSE_PATH, "Action"),
+            files=[{"name": "Dancing Left"}],
+        )
 
     try:
         bpy.data.actions["Dancing Right"]
     except:
-        bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, "assets", POSES_PATH, "Action"),
-                          files=[{"name": "Dancing Right"}])
+        bpy.ops.wm.append(
+            directory=os.path.join(ROOT_DIR, "assets", POSE_PATH, "Action"),
+            files=[{"name": "Dancing Right"}],
+        )
 
     try:
-        bpy.data.actions["Walking Left"] 
+        bpy.data.actions["Walking Left"]
     except:
-        bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, "assets", POSES_PATH, "Action"),
-                          files=[{"name": "Walking Left"}])
+        bpy.ops.wm.append(
+            directory=os.path.join(ROOT_DIR, "assets", POSE_PATH, "Action"),
+            files=[{"name": "Walking Left"}],
+        )
 
     try:
-        bpy.data.actions["Walking Right"] 
-    except:    
-        bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, "assets", POSES_PATH, "Action"),
-                          files=[{"name": "Walking Right"}])
+        bpy.data.actions["Walking Right"]
+    except:
+        bpy.ops.wm.append(
+            directory=os.path.join(ROOT_DIR, "assets", POSE_PATH, "Action"),
+            files=[{"name": "Walking Right"}],
+        )
 
     try:
         bpy.data.actions["T Pose"]
-    except:    
-        bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, "assets", POSES_PATH, "Action"),
-                          files=[{"name": "T Pose"}])
-        
+    except:
+        bpy.ops.wm.append(
+            directory=os.path.join(ROOT_DIR, "assets", POSE_PATH, "Action"),
+            files=[{"name": "T Pose"}],
+        )
+
     try:
         bpy.data.actions["Rest Pose"]
-    except:    
-        bpy.ops.wm.append(directory=os.path.join(ROOT_DIR, "assets", POSES_PATH, "Action"),
-                          files=[{"name": "Rest Pose"}])
+    except:
+        bpy.ops.wm.append(
+            directory=os.path.join(ROOT_DIR, "assets", POSE_PATH, "Action"),
+            files=[{"name": "Rest Pose"}],
+        )
 
 
 class RiggingTest_Operator(bpy.types.Operator):
     """Tooltip"""
+
     bl_idname = "object.rigging_test"
     bl_label = "Import main poses library"
     bl_description = "Import pose library"
@@ -64,19 +84,21 @@ class RiggingTest_Operator(bpy.types.Operator):
             self.report({"ERROR"}, "ERROR: Pose library was not imported")
         return {"FINISHED"}
 
+
 class DefaultPose_Operator(bpy.types.Operator):
     """Tooltip"""
+
     bl_idname = "object.default_pose"
     bl_label = "A Pose (Default)"
     bl_description = "Default Pose"
+
     def execute(self, context):
-        
         try:
             load_poses()
-            ob = bpy.data.objects['Armature']
+            ob = bpy.data.objects["Armature"]
 
             action = bpy.data.actions["A Pose"]
-            
+
             # Create the animation data if it doesn't exist
             if not ob.animation_data:
                 ob.animation_data_create()
@@ -88,25 +110,31 @@ class DefaultPose_Operator(bpy.types.Operator):
             ob.animation_data.action = action
             bpy.ops.object.posemode_toggle()
             ob.animation_data_clear()
-            for action in bpy.data.actions: bpy.data.actions.remove(action)
+            for action in bpy.data.actions:
+                bpy.data.actions.remove(action)
         except:
-            self.report({"ERROR"}, "ERROR: Delete action assigned to armature before changing pose")
+            self.report(
+                {"ERROR"},
+                "ERROR: Delete action assigned to armature before changing pose",
+            )
 
         return {"FINISHED"}
+
 
 class DancingLeftPose_Operator(bpy.types.Operator):
     """Tooltip"""
+
     bl_idname = "object.dancingleft_pose"
     bl_label = "Dancing Pose (left)"
     bl_description = "Dancing Pose"
+
     def execute(self, context):
-        
         try:
             load_poses()
-            ob = bpy.data.objects['Armature']
+            ob = bpy.data.objects["Armature"]
 
             action = bpy.data.actions["Dancing Left"]
-            
+
             # Create the animation data if it doesn't exist
             if not ob.animation_data:
                 ob.animation_data_create()
@@ -118,24 +146,30 @@ class DancingLeftPose_Operator(bpy.types.Operator):
             ob.animation_data.action = action
             bpy.ops.object.posemode_toggle()
             ob.animation_data_clear()
-            for action in bpy.data.actions: bpy.data.actions.remove(action)
+            for action in bpy.data.actions:
+                bpy.data.actions.remove(action)
         except:
-            self.report({"ERROR"}, "ERROR: Delete action assigned to armature before changing pose")
+            self.report(
+                {"ERROR"},
+                "ERROR: Delete action assigned to armature before changing pose",
+            )
         return {"FINISHED"}
-        
+
+
 class DancingRightPose_Operator(bpy.types.Operator):
     """Tooltip"""
+
     bl_idname = "object.dancingright_pose"
     bl_label = "Dancing Pose (right)"
     bl_description = "Dancing Pose"
+
     def execute(self, context):
-        
         try:
             load_poses()
-            ob = bpy.data.objects['Armature']
+            ob = bpy.data.objects["Armature"]
 
             action = bpy.data.actions["Dancing Right"]
-            
+
             # Create the animation data if it doesn't exist
             if not ob.animation_data:
                 ob.animation_data_create()
@@ -147,24 +181,30 @@ class DancingRightPose_Operator(bpy.types.Operator):
             ob.animation_data.action = action
             bpy.ops.object.posemode_toggle()
             ob.animation_data_clear()
-            for action in bpy.data.actions: bpy.data.actions.remove(action)
+            for action in bpy.data.actions:
+                bpy.data.actions.remove(action)
         except:
-            self.report({"ERROR"}, "ERROR: Unlink animation assigned to armature before changing pose")
+            self.report(
+                {"ERROR"},
+                "ERROR: Unlink animation assigned to armature before changing pose",
+            )
         return {"FINISHED"}
-        
+
+
 class WalkingLeftPose_Operator(bpy.types.Operator):
     """Tooltip"""
+
     bl_idname = "object.walkingleft_pose"
     bl_label = "Walking Pose (left)"
     bl_description = "Walking Pose"
+
     def execute(self, context):
-        
         try:
             load_poses()
-            ob = bpy.data.objects['Armature']
+            ob = bpy.data.objects["Armature"]
 
             action = bpy.data.actions["Walking Left"]
-            
+
             # Create the animation data if it doesn't exist
             if not ob.animation_data:
                 ob.animation_data_create()
@@ -176,24 +216,30 @@ class WalkingLeftPose_Operator(bpy.types.Operator):
             ob.animation_data.action = action
             bpy.ops.object.posemode_toggle()
             ob.animation_data_clear()
-            for action in bpy.data.actions: bpy.data.actions.remove(action)
+            for action in bpy.data.actions:
+                bpy.data.actions.remove(action)
         except:
-            self.report({"ERROR"}, "ERROR: Unlink animation assigned to armature before changing pose")
+            self.report(
+                {"ERROR"},
+                "ERROR: Unlink animation assigned to armature before changing pose",
+            )
         return {"FINISHED"}
+
 
 class WalkingRightPose_Operator(bpy.types.Operator):
     """Tooltip"""
+
     bl_idname = "object.walkingright_pose"
     bl_label = "Walking Pose (right)"
     bl_description = "Walking Pose"
+
     def execute(self, context):
-        
         try:
             load_poses()
-            ob = bpy.data.objects['Armature']
+            ob = bpy.data.objects["Armature"]
 
             action = bpy.data.actions["Walking Right"]
-            
+
             # Create the animation data if it doesn't exist
             if not ob.animation_data:
                 ob.animation_data_create()
@@ -205,21 +251,27 @@ class WalkingRightPose_Operator(bpy.types.Operator):
             ob.animation_data.action = action
             bpy.ops.object.posemode_toggle()
             ob.animation_data_clear()
-            for action in bpy.data.actions: bpy.data.actions.remove(action)
+            for action in bpy.data.actions:
+                bpy.data.actions.remove(action)
         except:
-            self.report({"ERROR"}, "ERROR: Unlink animation assigned to armature before changing pose")
+            self.report(
+                {"ERROR"},
+                "ERROR: Unlink animation assigned to armature before changing pose",
+            )
         return {"FINISHED"}
-    
+
+
 class TPose_Operator(bpy.types.Operator):
     """Tooltip"""
+
     bl_idname = "object.t_pose"
     bl_label = "T Pose"
     bl_description = "Standard T pose"
+
     def execute(self, context):
-        
         try:
             load_poses()
-            ob = bpy.data.objects['Armature']
+            ob = bpy.data.objects["Armature"]
             print("Armature loaded")
             action = bpy.data.actions["T Pose"]
             print("Pose loaded")
@@ -234,24 +286,30 @@ class TPose_Operator(bpy.types.Operator):
             ob.animation_data.action = action
             bpy.ops.object.posemode_toggle()
             ob.animation_data_clear()
-            for action in bpy.data.actions: bpy.data.actions.remove(action)
+            for action in bpy.data.actions:
+                bpy.data.actions.remove(action)
         except:
-            self.report({"ERROR"}, "ERROR: Unlink animation assigned to armature before changing pose")
+            self.report(
+                {"ERROR"},
+                "ERROR: Unlink animation assigned to armature before changing pose",
+            )
         return {"FINISHED"}
-    
+
+
 class RestPose_Operator(bpy.types.Operator):
     """Tooltip"""
+
     bl_idname = "object.rest_pose"
     bl_label = "Rest Pose"
     bl_description = "Rest pose"
+
     def execute(self, context):
-        
         try:
             load_poses()
-            ob = bpy.data.objects['Armature']
+            ob = bpy.data.objects["Armature"]
 
             action = bpy.data.actions["Rest Pose"]
-            
+
             # Create the animation data if it doesn't exist
             if not ob.animation_data:
                 ob.animation_data_create()
@@ -263,7 +321,11 @@ class RestPose_Operator(bpy.types.Operator):
             ob.animation_data.action = action
             bpy.ops.object.posemode_toggle()
             ob.animation_data_clear()
-            for action in bpy.data.actions: bpy.data.actions.remove(action)
+            for action in bpy.data.actions:
+                bpy.data.actions.remove(action)
         except:
-            self.report({"ERROR"}, "ERROR: Unlink animation assigned to armature before changing pose")
+            self.report(
+                {"ERROR"},
+                "ERROR: Unlink animation assigned to armature before changing pose",
+            )
         return {"FINISHED"}

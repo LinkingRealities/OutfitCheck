@@ -10,6 +10,7 @@ var_acs = "UnionAvatars_Acs"
 
 from components.constants import var_forbiddentextures
 
+
 def remove_unecessary_textures(texture_name):
     removed = False
     if remove_links(var_top, texture_name):
@@ -48,20 +49,19 @@ def remove_links(var_target, texture_name):
         return found
 
     except:
-        #print(f"Couldn't remove {texture_name}. No {var_target} object was found")
+        # print(f"Couldn't remove {texture_name}. No {var_target} object was found")
         return False
 
 
 class RemoveForbiddenTextures_Operator(bpy.types.Operator):
     """Tooltip"""
+
     bl_idname = "object.remove_metallic_texture"
     bl_label = "Remove Metallic texture"
     bl_description = "Remove metallic texture"
 
     def execute(self, context):
-
         for texture_name in var_forbiddentextures:
             remove_unecessary_textures(texture_name)
-
 
         return {"FINISHED"}

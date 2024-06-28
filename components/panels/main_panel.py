@@ -1,72 +1,76 @@
 """ Main Panel """
 import bpy
 
-from components.panels.lib import create_objects_validation_panel
-from components.panels.lib import image_size
-from components.panels.lib import textures_validation
-from components.panels.lib import source_validation
-from components.panels.lib import image_packing
-from components.panels.lib import unexpected_objects
-from components.panels.lib import metadata_selector
-from components.panels.lib import rigging_test
-from components.panels.lib import gender_toggle
-from components.panels.lib import polycount_validation
-from components.panels.lib import face_toggle
-from components.panels.lib import export_button
-from components.panels.lib import parented_to_armature
-from components.panels.lib import transformations_applied
+from components.panels.lib import (create_objects_validation_panel,
+                                   export_button, face_toggle, gender_toggle,
+                                   image_packing, image_size,
+                                   metadata_selector, parented_to_armature,
+                                   polycount_validation, rigging_test,
+                                   source_validation, style_toggle,
+                                   textures_validation,
+                                   transformations_applied, unexpected_objects)
+
 
 def main_panel(panel_props, layout):
-    
-    #Gender toggle section
+    # Gender toggle section
     gender_toggle(layout=layout, panel_props=panel_props)
-    
-    #Create and validate objects section
+    style_toggle(layout=layout, panel_props=panel_props)
+    # Create and validate objects section
     create_objects_validation_panel(layout=layout, panel_props=panel_props)
-    
-    #Textures validation section
+
+    # Textures validation section
     textures_validation(layout=layout)
 
-    #Textures source validation section
+    # Textures source validation section
     source_validation(layout=layout)
 
-    #Armature parent section
+    # Armature parent section
     armatureparent = parented_to_armature(layout=layout)
 
-    #Image packing check section
+    # Image packing check section
     imagepacking = image_packing(layout=layout)
-    
-    #Image size check section
+
+    # Image size check section
     imagesize = image_size(layout=layout)
 
-    #Unexpected object section
+    # Unexpected object section
     unexpected_objects(layout=layout)
 
-    #Transformations applied section
+    # Transformations applied section
     transformations = transformations_applied(layout=layout)
-    
-    #Polycount section
+
+    # Polycount section
     polycount = polycount_validation(layout=layout)
 
-    #Face toggle section
+    # Face toggle section
     face_toggle(layout=layout)
 
-    #Metadata selector section
+    # Metadata selector section
     metadata_selector(layout=layout, panel_props=panel_props)
 
-    #Rigging test section
+    # Rigging test section
     rigging_test(layout=layout)
-    
-    #Export button section
-    export_button(layout=layout, panel_props=panel_props, polycount=polycount, imagesize=imagesize, imagepacking = imagepacking, armatureparent = armatureparent, transformations=transformations)
+
+    # Export button section
+    export_button(
+        layout=layout,
+        panel_props=panel_props,
+        polycount=polycount,
+        imagesize=imagesize,
+        imagepacking=imagepacking,
+        armatureparent=armatureparent,
+        transformations=transformations,
+    )
+
 
 class ProductionCheck_PT_Panel_Main(bpy.types.Panel):
     """Creates a Panel in the Navigation Toolbar"""
+
     bl_label = "Union Avatars Production Tools"
     bl_idname = "OBJECT_PT_ProductionCheckPanel"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
-    bl_category = 'UA Production Tools'
+    bl_category = "UA Production Tools"
 
     def draw(self, context):
         layout = self.layout
@@ -74,6 +78,3 @@ class ProductionCheck_PT_Panel_Main(bpy.types.Panel):
         panel_props = scene.PanelProperties
 
         main_panel(panel_props=panel_props, layout=layout)
-
-
-

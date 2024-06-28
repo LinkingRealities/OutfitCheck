@@ -1,4 +1,8 @@
-
 random.blend
+random.blend1
+random.json
 random.glb
 *.pyc
+.vscode/settings.json
+*.bat
+*.zip

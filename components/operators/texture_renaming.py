@@ -1,6 +1,7 @@
 """ Texture renaming """
 import bpy
 
+
 def rename_texture(var_target):
     try:
         print(f"Renaming materials for {bpy.data.objects[var_target].name}:")
@@ -57,14 +58,15 @@ def rename_texture(var_target):
 
 class TextureRename_Operator(bpy.types.Operator):
     """Tooltip"""
+
     bl_idname = "object.texture_rename"
     bl_label = "Rename Textures"
     bl_description = "Rename all textures to match material name"
 
     def execute(self, context):
         # texture_rename(context,var_body)
-        #rename_texture(var_top)
-        #rename_texture(var_bottom)
+        # rename_texture(var_top)
+        # rename_texture(var_bottom)
         # texture_rename(context,var_shoes)
         self.report({"INFO"}, "All textures Renamed Correctly")
         return {"FINISHED"}
